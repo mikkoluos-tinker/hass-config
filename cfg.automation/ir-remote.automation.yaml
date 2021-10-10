@@ -1,0 +1,30 @@
+- alias: "Set amp source to bluetooth"
+  trigger:
+    - platform: state
+      entity_id: input_select.amp_source
+      to: "Bluetooth"
+  action:
+    - service: script.select_amp_source
+      data:
+        repeat_count: 2
+
+- alias: "Set amp source to optical"
+  trigger:
+    - platform: state
+      entity_id: input_select.amp_source
+      to: "Optical"
+  action:
+    - service: script.select_amp_source
+      data:
+        repeat_count: 4
+
+- alias: "Toggle amp on/off"
+  trigger:
+    - platform: mqtt
+      topic: "tele/Tasmota-SW1/RESULT"
+      payload: "0xDEA192"
+      value_template: "{{ value_json.RfReceived.Data }}"
+  action:
+    - service: switch.turn_on
+      data:
+        entity_id: "switch.amp_power_toggle"

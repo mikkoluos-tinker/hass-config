@@ -1,0 +1,57 @@
+#
+#  IR-Remote scripts
+#
+
+#repeat source cycle command n times
+select_amp_source:
+  alias: "Select Amp Source"
+  mode: "single"
+  fields:
+    repeat_count:
+      description: 'repeat count'
+  sequence:
+    - repeat:
+        count: "{{ repeat_count }}"
+        sequence:
+          - service: switch.turn_on
+            data:
+              entity_id: "switch.amp_source_cycle"
+          - delay: 
+              milliseconds: 100
+
+
+#turn project on, select optical input for audio amplifier and mute projectors built-in speaker
+projector_on:
+  alias: "Projector on"
+  mode: "single"
+  sequence:
+    - service: switch.turn_on
+      data:
+        entity_id: "switch.projector"
+    - service: input_select.select_option 
+      data:
+        entity_id: "input_select.amp_source"
+        option: "Optical"
+    - delay: 40
+    - service: switch.turn_on
+      data:
+        entity_id: "switch.projector_mute_toggle"
+
+#press projector power off twice to turn off projector and reset amplifier input to bluetooth
+projector_off:
+  alias: "Projector off"
+  mode: "single"
+  sequence:
+    - service: switch.turn_off
+      data:
+        entity_id: "switch.projector"
+    - service: input_select.select_option 
+      data:
+        entity_id: "input_select.amp_source"
+        option: "Bluetooth"
+    - delay: 3
+    - service: switch.turn_off
+      data:
+        entity_id: "switch.projector"
+    
+
