@@ -3,4 +3,6 @@
 !README.md
 !*.yaml
 !/cfg.*
+!/docs
+!/docs/*
 secrets.yaml
