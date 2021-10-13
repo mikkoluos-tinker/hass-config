@@ -1,0 +1,40 @@
+blink:
+  alias: "Blinking light"
+  mode: "single"
+  fields:
+    blink_entity_id:
+      description: 'a light to blink'
+    sensor_entity_id:
+      description: 'a sensor to break out of the loop'
+  sequence:
+    - repeat:
+        sequence:
+          - service: light.turn_on
+            target:
+              entity_id: "{{ blink_entity_id }}"
+            data:
+              color_temp: >
+                {% if repeat.index % 2 > 0 %}
+                  170
+                {% else %}
+                  490
+                {% endif %}
+          - delay: 3
+        until:
+          - "{{ is_state(sensor_entity_id, 'off') }}"
+    - service: script.turn_on
+      target:
+        entity_id: >
+          {% if is_state('input_select.dining_lights', 'Default') %}
+            script.dining_lights_default
+          {% elif is_state('input_select.dining_lights', 'Work') %}
+            script.dining_lights_work
+          {% elif is_state('input_select.dining_lights', 'Night') %}
+            script.dining_lights_night
+          {% else %}
+            script.dining_lights_off
+          {% endif %}
+            
+          
+          
+              

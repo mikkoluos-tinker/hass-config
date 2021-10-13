@@ -1,0 +1,10 @@
+- alias: "Battery alarm - time to charge"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.battery_low
+      to: 'on'
+  action:
+    - service: script.blink
+      data:
+        blink_entity_id: light.tuyal2
+        sensor_entity_id: binary_sensor.battery_low

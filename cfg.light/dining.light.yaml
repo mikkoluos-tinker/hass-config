@@ -1,0 +1,6 @@
+  - platform: group
+    name: "Dining Lights"
+    entities:
+      - light.tuyal1
+      - light.tuyal2
+      - light.tuyal3

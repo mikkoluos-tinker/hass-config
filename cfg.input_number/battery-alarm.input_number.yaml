@@ -1,0 +1,6 @@
+battery1:
+  name: Battery alarm treshold
+  min: 0
+  max: 100
+  step: 1
+  mode: box 

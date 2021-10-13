@@ -1,0 +1,7 @@
+dining_lights:
+  name: "Dining light mode"
+  options:
+    - "Default"
+    - "Work"
+    - "Night"
+    - "Off"
