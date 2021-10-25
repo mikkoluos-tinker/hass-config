@@ -1,0 +1,40 @@
+#
+# RF-remote
+#
+# dual button rf-remote 
+# * 0xDEA198 (Button A) - controls Tasmota-SW1 directly
+# * 0xDEA192 (Button B)
+#
+# white/blue rf-button
+# * 0xF371A8
+#
+# black rf-button
+# * 0x134AA1
+
+- alias: "Toggle dining lights on/off"
+  trigger:
+    - platform: mqtt
+      topic: "tele/Tasmota-SW1/RESULT"
+      payload: "0xDEA192" #dual button rf-remote, Button B
+      value_template: "{{ value_json.RfReceived.Data }}"
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.dining_lights
+        option: >
+          {% if is_state('input_select.dining_lights', 'Off') %}
+            Default
+          {% else %}
+            Off
+          {% endif %}
+          
+- alias: "Toggle amp mute on/off"
+  trigger:
+    - platform: mqtt
+      topic: "tele/Tasmota-SW1/RESULT"
+      payload: "0xF371A8" #white/blue rf-button
+      value_template: "{{ value_json.RfReceived.Data }}"
+  action:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.amp_mute_toggle

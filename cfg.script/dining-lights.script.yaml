@@ -1,73 +1,14 @@
-dining_lights_default:
+dining_lights_set:
   alias: "dining lights default"
   mode: "single"
   sequence:
-    - service: light.turn_on
+    - service: scene.turn_on
       target:
-        entity_id: light.dining_lights
-      data:
-        color_temp: 360
-    - delay: 2
-    - service: light.turn_on
-      target:
-        entity_id: light.dining_lights
-      data:
-        brightness: 65
-    - service: input_select.select_option 
-      data:
-        entity_id: "input_select.dining_lights"
-        option: "Default"
+        entity_id: >
+          {% if states('input_select.dining_lights') == "Ambient" and is_state("sun.sun", "below_horizon") %}
+            scene.ambient_dark
+          {% else %}
+            scene.{{ states('input_select.dining_lights').lower() }}
+          {% endif %}
 
-dining_lights_work:
-  alias: "dining lights work"
-  mode: "single"
-  sequence:
-    - service: light.turn_on
-      target:
-        entity_id: light.dining_lights
-      data:
-        color_temp: 160
-    - delay: 2
-    - service: light.turn_on
-      target:
-        entity_id: light.dining_lights
-      data:
-        brightness: 100
-    - service: input_select.select_option 
-      data:
-        entity_id: "input_select.dining_lights"
-        option: "Work"
-
-dining_lights_night:
-  alias: "dining lights night"
-  mode: "single"
-  sequence:
-    - service: light.turn_on
-      target:
-        entity_id: light.dining_lights
-      data:
-        color_temp: 160
-    - delay: 2
-    - service: light.turn_on
-      target:
-        entity_id: light.dining_lights
-      data:
-        brightness: 1
-    - service: input_select.select_option 
-      data:
-        entity_id: "input_select.dining_lights"
-        option: "Night"
-  
-dining_lights_off:
-  alias: "dining lights off"
-  mode: "single"
-  sequence:
-    - service: light.turn_off
-      target:
-        entity_id: light.dining_lights
-    - service: input_select.select_option 
-      data:
-        entity_id: "input_select.dining_lights"
-        option: "Off"
-              
       

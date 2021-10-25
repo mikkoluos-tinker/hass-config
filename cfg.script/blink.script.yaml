@@ -21,19 +21,8 @@ blink:
                 {% endif %}
           - delay: 3
         until:
-          - "{{ is_state(sensor_entity_id, 'off') }}"
-    - service: script.turn_on
-      target:
-        entity_id: >
-          {% if is_state('input_select.dining_lights', 'Default') %}
-            script.dining_lights_default
-          {% elif is_state('input_select.dining_lights', 'Work') %}
-            script.dining_lights_work
-          {% elif is_state('input_select.dining_lights', 'Night') %}
-            script.dining_lights_night
-          {% else %}
-            script.dining_lights_off
-          {% endif %}
+          - "{{ is_state(sensor_entity_id, 'off') or is_state(blink_entity_id, 'off') }}"
+
             
           
           

@@ -4,7 +4,12 @@
       entity_id: binary_sensor.battery_low
       to: 'on'
   action:
+    #block until phone is charging
     - service: script.blink
       data:
         blink_entity_id: light.tuyal2
         sensor_entity_id: binary_sensor.battery_low
+    #reset selected scene afterwards
+    - service: script.turn_on
+      data:
+        entity_id: script.dining_lights_set

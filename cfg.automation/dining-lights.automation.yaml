@@ -1,0 +1,8 @@
+- alias: "Set scene for dining lights"
+  trigger:
+    - platform: state
+      entity_id: input_select.dining_lights
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.dining_lights_set

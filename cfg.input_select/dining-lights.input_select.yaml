@@ -3,5 +3,5 @@ dining_lights:
   options:
     - "Default"
     - "Work"
-    - "Night"
+    - "Ambient"
     - "Off"
